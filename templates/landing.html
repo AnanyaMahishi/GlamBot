@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="landing" id="landing"></div>
+
+    <script>
+        // Wait for the document to fully load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click event listener to the whole document
+            document.addEventListener('click', function() {
+                // Add fade-out class to the landing div
+                document.getElementById('landing').classList.add('fade-out');
+
+                // Wait for the animation to complete before redirecting
+                setTimeout(function() {
+                    window.location.href = "{{ url_for('photo_pick') }}";
+                }, 1000); // Duration should match the animation duration
+            });
+        });
+    </script>
+</body>
+</html>

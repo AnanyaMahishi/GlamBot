@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="video-background">
+        <video autoplay muted loop>
+            <source src="{{ url_for('static', filename='loading.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+        var socket = io();
+    
+        // Start color analysis on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            socket.emit('start_color_analysis', {
+                skin_color: 'DA9762',
+                eye_color: '664236',
+                hair_color: '2D1D20'
+            });
+        });
+    
+        // Handle color analysis completion
+        socket.on('color_analysis_complete', function(data) {
+            // Redirect to results page with analysis data
+            window.location.href = "{{ url_for('color_analysis_results') }}?response=" + encodeURIComponent(data.response)
+                + "&palette=" + encodeURIComponent(data.palette)
+                + "&recommended_colors=" + encodeURIComponent(JSON.stringify(data.recommended_colors))
+                + "&color_hexcodes_list=" + encodeURIComponent(JSON.stringify(data.color_hexcodes_list));
+        });
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Analysis Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="video-background">
+        <video autoplay muted loop>
+            <source src="{{ url_for('static', filename='reccomended.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="container">
+        <div class="header">
+            <h1>Your Reccomended Color Palette Is</h1>
+        </div>
+        <div class="palette-heading">
+            <h2 id="palette"></h2>
+        </div>
+        <div class="response-box">
+            <div id="response"></div>
+        </div>
+        <div class="button-container">
+            <button onclick="location.href='{{ url_for('shop_myntra') }}'">Shop on Myntra</button>
+        </div>
+    </div>
+
+    <script>
+        // Extract query parameters from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const response = urlParams.get('response');
+        const palette = urlParams.get('palette');
+        const recommended_colors = JSON.parse(urlParams.get('recommended_colors'));
+        const color_hexcodes_list = JSON.parse(urlParams.get('color_hexcodes_list'));
+
+        // Function to convert markdown-like text to HTML
+        function formatResponse(text) {
+            // Replace '**' with <strong> tags
+            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            // Replace '*' with <li> tags
+            text = text.replace(/\*\s/g, '<li>');
+            // Replace '\n\n' with <p> tags
+            text = text.replace(/\n\n/g, '</p><p>');
+            // Replace '\n' with <br> tags
+            text = text.replace(/\n/g, '<br>');
+            return text;
+        }
+
+        // Display results
+        document.getElementById('palette').textContent = palette;
+        document.getElementById('response').innerHTML = '<p>' + formatResponse(response) + '</p>';
+    </script>
+</body>
+</html>
