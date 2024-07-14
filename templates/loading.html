@@ -17,14 +17,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
     <script>
         var socket = io();
+
+        // Get image path from URL query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const imagePath = urlParams.get('image_path');
     
         // Start color analysis on page load
         document.addEventListener('DOMContentLoaded', function() {
-            socket.emit('start_color_analysis', {
-                skin_color: 'DA9762',
-                eye_color: '664236',
-                hair_color: '2D1D20'
-            });
+            socket.emit('start_color_analysis', { image_path: imagePath });
         });
     
         // Handle color analysis completion
@@ -36,6 +36,5 @@
                 + "&color_hexcodes_list=" + encodeURIComponent(JSON.stringify(data.color_hexcodes_list));
         });
     </script>
-    
 </body>
 </html>

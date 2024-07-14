@@ -40,10 +40,10 @@ def get_color_analysis(skin_hex, eye_hex, hair_hex):
 
 
 # Example usage
-skin_color = "DA9762"
-eye_color = "664236"
-hair_color = "2D1D20"
-response = get_color_analysis(skin_color, eye_color, hair_color)
+# skin_color = "DA9762"
+# eye_color = "664236"
+# hair_color = "2D1D20"
+# response = get_color_analysis(skin_color, eye_color, hair_color)
 
 
 myntra_color_list = [
@@ -111,15 +111,15 @@ def extract_palette(response):
     else:
         return None
 
-print("Your Personal Color Analysis by GlamBot")
+# print("Your Personal Color Analysis by GlamBot")
 
-palette = extract_palette(response)
-print("Your Most Suitable Season Palette:", palette)
+# palette = extract_palette(response)
+# print("Your Most Suitable Season Palette:", palette)
 
-print(response)
+# print(response)
 
-recommended_colors = extract_color(response)
-print("Recommended Colors:", recommended_colors)
+# recommended_colors = extract_color(response)
+# print("Recommended Colors:", recommended_colors)
 
-color_hexcodes_list = get_hexcodes_for_colors(recommended_colors)
-print("Reccomended Color Hexcodes:", color_hexcodes_list)
+# color_hexcodes_list = get_hexcodes_for_colors(recommended_colors)
+# print("Reccomended Color Hexcodes:", color_hexcodes_list)
