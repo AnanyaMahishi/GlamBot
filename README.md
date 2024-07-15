@@ -2,8 +2,8 @@
 
 GlamBot is an AI-powered fashion recommendation system. This platform leverages advanced image processing, image segmentation, and large language model (LLM) technologies to provide personalized fashion recommendations based on a user's skin color, eye color, and hair color. The recommendations are curated specifically from Myntra's vast collection, helping users find the best outfits that match their unique color profile.
 
-[Watch the Demo video](https://youtu.be/6eS3m9Bh-qs)
-[GlamBot Solution](https://youtu.be/eAfw7BiDS5Y)
+- [Watch the Demo video](https://youtu.be/6eS3m9Bh-qs)
+- [GlamBot Solution](https://youtu.be/eAfw7BiDS5Y)
 
 
 
