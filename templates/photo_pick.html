@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Photo Pick</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -19,22 +16,15 @@
   <body>
     <div class="video-background">
       <video autoplay muted loop>
-        <source
-          src="{{ url_for('static', filename='color_pick_vid_bg.mp4') }}"
-          type="video/mp4"
-        />
+        <source src="{{ url_for('static', filename='color_vid_pick_img.mp4') }}" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </div>
 
     <div class="choose_option">
       <div class="container">
-        <div class="button-container">
-          <form
-            action="/photo_pick"
-            method="post"
-            enctype="multipart/form-data"
-          >
+        <div id="buttonContainer" class="button-container">
+          <form action="/photo_pick" method="post" enctype="multipart/form-data">
             <label for="uploadInput" class="btn btn-primary">
               <i class="bi bi-upload"></i> Upload Image
             </label>
@@ -48,25 +38,34 @@
             />
             <button type="submit" class="btn btn-success">Submit</button>
           </form>
-        </div>
-        <div class="button-container">
           <button id="useCameraButton" class="btn btn-primary">
             <i class="bi bi-camera"></i> Use Camera
           </button>
         </div>
+
+        <div id="cameraContainer" style="display:none;">
+          <video id="video" width="320" height="240" autoplay></video>
+          <div class="button-container">
+            <button id="captureButton" class="btn btn-success">Capture</button>
+            <form id="cameraForm" action="/capture_image" method="post">
+              <input type="hidden" id="capturedImage" name="capturedImage" />
+              <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+          </div>
+          <canvas id="canvas" style="display:none;"></canvas>
+        </div>
+
         <div id="message">
-          {% with messages = get_flashed_messages(with_categories=true) %} {% if
-          messages %} {% for category, message in messages %}
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          {% for category, message in messages %}
           <div class="alert alert-{{ category }}" role="alert">
             {{ message }}
           </div>
-          {% endfor %} {% endif %} {% endwith %}
+          {% endfor %}
+          {% endif %}
+          {% endwith %}
         </div>
-        <!-- <div class="button-container">
-          <form action="{{ url_for('color_analysis_results') }}" method="POST">
-            <button class="btn btn-primary" type="submit">Start Analysis</button>
-          </form>
-        </div> -->
       </div>
     </div>
 
@@ -84,17 +83,34 @@
         }
       }
 
-      $(document).ready(function () {
-        $("#useCameraButton").click(function () {
-          $.post("/use_camera", function (response) {
-            // alert(response.message);
-            // if (response.success) {
-            //     console.log("Succesful")
-            //     location.reload(); // Reload the page to show the success message
-            // }
-            location.reload()
+      document.getElementById("useCameraButton").addEventListener("click", function () {
+        var buttonContainer = document.getElementById("buttonContainer");
+        var cameraContainer = document.getElementById("cameraContainer");
+
+        buttonContainer.style.display = "none";
+        cameraContainer.style.display = "block";
+
+        var video = document.getElementById("video");
+
+        // Get access to the camera!
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {
+            video.srcObject = stream;
+            video.play();
           });
-        });
+        }
+      });
+
+      document.getElementById("captureButton").addEventListener("click", function () {
+        var canvas = document.getElementById("canvas");
+        var video = document.getElementById("video");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext("2d").drawImage(video, 0, 0);
+
+        var dataURL = canvas.toDataURL("image/png");
+        document.getElementById("capturedImage").value = dataURL;
+        document.getElementById("cameraForm").style.display = "inline-block";
       });
     </script>
   </body>

@@ -6,6 +6,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import stats
 
+
+
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 def segment_and_extract_hex(image_path):

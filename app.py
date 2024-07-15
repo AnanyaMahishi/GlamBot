@@ -15,6 +15,9 @@ import urllib.request
 import re
 import shutil
 from search_outfits import clear_images_folder, search_outfits, fetch_image_urls, extract_product_details, download_images, colors, gender
+import base64
+from io import BytesIO
+from PIL import Image
 
 app = Flask(__name__)
 
@@ -64,31 +67,35 @@ def photo_pick():
     return render_template("photo_pick.html", message=message)
 
 
-@app.route("/use_camera", methods=["GET", "POST"])
-def use_camera():
-    filename = "captured_image.png"
-    save_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+@app.route("/capture_image", methods=["POST"])
+def capture_image_route():
+    captured_image_data = request.form["capturedImage"]
+    if captured_image_data:
+        try:
+            # Decode the base64 image data
+            image_data = base64.b64decode(captured_image_data.split(",")[1])
+            image = Image.open(BytesIO(image_data))
+            
+            # Save the image to the UPLOAD_FOLDER
+            filename = "captured_image.png"
+            filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+            image.save(filepath)
 
-    # Call the capture_image.py script
-    # result = subprocess.run(
-    #     ["python", "capture_image.py", save_path], capture_output=True, text=True
-    # )
-    # print(type(result.returncode))
+            if os.path.exists(filepath):
+                message = "Captured image saved successfully!"
+                flash(message, "success")
 
-    capture_image(save_path)
+                # Redirect to loading page and start color analysis
+                return redirect(url_for("loading", image_path=filepath))
 
-    # if os.path.exists(save_path):
-    #     message = f"Image '{filename}' captured and saved successfully!"
-    #     flash(message, "success")
-        # Redirect to loading page and start color analysis
-    return redirect(url_for("loading", image_path=save_path))
-    # else:
-    #     # message = f"Error capturing image: {result.stderr}"
-    #     message = f"Failed to save image '{filename}' to {save_path}. Check folder permissions."
-    #     flash(message, "danger")
+            else:
+                message = "Failed to save captured image. Check folder permissions."
+                flash(message, "danger")
+        except Exception as e:
+            message = f"Error processing captured image: {str(e)}"
+            flash(message, "danger")
 
-    # return redirect(url_for("photo_pick"))
-
+    return redirect(url_for("photo_pick"))
 
 @app.route("/loading")
 def loading():
