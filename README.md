@@ -9,9 +9,9 @@ GlamBot is an AI-powered fashion recommendation system. This platform leverages 
 
 
 # Contributors 
-Ananya Mahishi
-Ananya Jha
-Ananya J
+- Ananya Mahishi
+- Ananya Jha
+- Ananya J
 
 # Features
 
