@@ -110,4 +110,4 @@ Majorly coded in **Python**
 
 I**mage processing libraries (To preprocess and analyze facial images for color extraction) :**
 
-- ****Pillow and Open CV
+- Pillow and Open CV
