@@ -3,10 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Recommended Outfits</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #945acb;
+            color: white;
+            padding: 10px 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .logo-container {
+            max-width: 100px;
+        }
+        .logo-container img {
+            width: 100%;
+            height: auto;
+        }
+        .outfit-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+        .outfit {
+            background-color: white;
+            text-align: center;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            width: calc(33.333% - 40px); /* Adjust width and margin to fit 3 per row */
+            box-sizing: border-box;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 8px;
+        }
+        .outfit:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .outfit img {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            border-bottom: 1px solid #ccc;
+            border-radius: 8px 8px 0 0;
+        }
+        .outfit p {
+            margin: 10px 0 0;
+        }
+        .outfit a {
+            text-decoration: none;
+            color: #945acb;
+            font-weight: bold;
+            display: inline-block;
+            margin: 10px 0;
+            padding: 10px 20px;
+            border: 2px solid #945acb;
+            border-radius: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .outfit a:hover {
+            background-color: #945acb;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <h1>Shopping !!</h1>
-
+    <header>
+        <h1>Recommended Outfits</h1>
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='myntra-logo.png') }}" alt="Myntra Logo">
+        </div>
+    </header>
+    <div class="outfit-container">
+        {% for outfit in outfits %}
+        <div class="outfit">
+            {% if outfit['image_url'] %}
+            <img src="{{ url_for('static', filename=outfit['image_url']) }}" alt="{{ outfit['product_title'] }}">
+            {% else %}
+            <img src="{{ url_for('static', filename='myntra-logo.jpg') }}" alt="Myntra Logo">
+            {% endif %}
+            <p><a href="{{ outfit['link'] }}" target="_blank">View on Myntra</a></p>
+        </div>
+        {% endfor %}
+    </div>
 </body>
 </html>

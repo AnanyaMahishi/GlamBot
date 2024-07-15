@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify,send_from_directory
 from werkzeug.utils import secure_filename
 import os
 import subprocess
@@ -6,6 +6,15 @@ from flask_socketio import SocketIO, emit
 import color_analysis
 from seg_hex_model import segment_and_extract_hex
 from capture_image import capture_image
+import requests
+from bs4 import BeautifulSoup
+from requests.exceptions import HTTPError
+import requests
+import os
+import urllib.request
+import re
+import shutil
+from search_outfits import clear_images_folder, search_outfits, fetch_image_urls, extract_product_details, download_images, colors, gender
 
 app = Flask(__name__)
 
@@ -130,8 +139,24 @@ def color_analysis_results():
 
 @app.route("/shop_myntra")
 def shop_myntra():
-    return render_template("shop_myntra.html")
-
+    clear_images_folder()
+    # save_folder = "/images"
+    # os.makedirs(save_folder, exist_ok=True)
+    outfits = search_outfits(colors, gender)
+    product_details = extract_product_details(outfits)
+    for product in product_details:
+        name = product['product_title']
+        search_term = f"image for {name}"
+        image_urls = fetch_image_urls(search_term)
+        # product['image_url'] = image_urls[0] if image_urls else None
+        # print( product['image_url'])
+        if image_urls:
+            saved_path = download_images(image_urls[0],product_details.index(product))
+            if saved_path:
+                product['image_url'] = saved_path 
+                print( product['image_url']) 
+       
+    return render_template('shop_myntra.html', outfits=product_details)
 
 if __name__ == "__main__":
     socketio.run(app, debug=True)
