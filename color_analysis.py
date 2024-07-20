@@ -1,5 +1,6 @@
 import google.generativeai as genai
 import re
+import os
 from dotenv import load_dotenv
 # from google.generativeai.types import HarmCategory, HarmBlockThreshold
 
@@ -16,9 +17,12 @@ def get_color_analysis(skin_hex, eye_hex, hair_hex):
     Returns:
         The generated response from the LLM.
     """
+
+    gemini_api_key = os.getenv('GEMINI_API_KEY')
+
     
     # Configure API key (replace with your actual API key)
-    genai.configure(api_key="AIzaSyAU1RvIrI_U8IvZgKiymmwGNKsuxiVH9ms")
+    genai.configure(api_key= gemini_api_key)
 
     # Replace with your desired model
     model = genai.GenerativeModel('gemini-pro')

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify,send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify,send_from_directory,session
 from werkzeug.utils import secure_filename
 import os
 import subprocess
@@ -149,7 +149,16 @@ def shop_myntra():
     clear_images_folder()
     # save_folder = "/images"
     # os.makedirs(save_folder, exist_ok=True)
-    outfits = search_outfits(colors, gender)
+     # Retrieve recommended_colors from session
+    recommended_colors = request.args.get("recommended_colors")
+    
+    if not recommended_colors:
+        # Handle the case where recommended_colors is not found in session
+        return "Recommended colors not found", 400
+    
+    # print(recommended_colors)
+    recommended_colors = recommended_colors.split(',')
+    outfits = search_outfits(recommended_colors, gender)
     product_details = extract_product_details(outfits)
     for product in product_details:
         name = product['product_title']

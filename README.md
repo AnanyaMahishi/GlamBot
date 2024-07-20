@@ -9,9 +9,9 @@ GlamBot is an AI-powered fashion recommendation system. This platform leverages 
 
 
 # Contributors 
-- Ananya Mahishi
-- Ananya Jha
-- Ananya J
+- [Ananya Mahishi](https://github.com/AnanyaMahishi)
+- [Ananya Jha](https://github.com/anya963)
+- [Ananya J](https://github.com/ananya-jaianand)
 
 # Features
 
@@ -26,7 +26,6 @@ GlamBot is an AI-powered fashion recommendation system. This platform leverages 
 - Clone the repository:
     
     ```
-    shCopy code
     git clone https://github.com/yourusername/glambot.git
     cd glambot
     
@@ -35,7 +34,6 @@ GlamBot is an AI-powered fashion recommendation system. This platform leverages 
 - Create a virtual environment and activate it:
     
     ```
-    shCopy code
     python3 -m venv venv
     source venv/bin/activate  # On Windows use `venv\Scripts\activate`
     
@@ -44,7 +42,6 @@ GlamBot is an AI-powered fashion recommendation system. This platform leverages 
 - Install the required packages:
     
     ```
-    shCopy code
     pip install -r requirements.txt
     
     ```
@@ -55,9 +52,8 @@ Set up environment variables:
 - Create a `.env` file in the root directory.
 - Add your Gemini API key to the `.env` file:
     
-    ```makefile
-    makefileCopy code
-    API_KEY=your_gemini_api_key
+    ```
+    GEMINI_API_KEY=your_gemini_api_key
     
     ```
     
@@ -65,7 +61,6 @@ Set up environment variables:
 Run the Flask application:
 
 ```
-shCopy code
 python app.py
 
 ```

@@ -24,11 +24,11 @@
             <div id="response"></div>
         </div>
         <div class="button-container-myntra">
-            <button onclick="location.href='{{ url_for('shop_myntra') }}'">Shop on Myntra</button>
+            <button id="shop-myntra-button">Shop on Myntra</button>
         </div>
     </div>
 
-    <script>
+    <script> 
         // Extract query parameters from URL
         const urlParams = new URLSearchParams(window.location.search);
         const response = urlParams.get('response');
@@ -49,9 +49,17 @@
             return text;
         }
 
+
         // Display results
         document.getElementById('palette').textContent = palette;
         document.getElementById('response').innerHTML = '<p>' + formatResponse(response) + '</p>';
+
+        const shopMyntraButton = document.getElementById('shop-myntra-button');
+        shopMyntraButton.onclick = function() {
+            const url = new URL('{{ url_for('shop_myntra') }}', window.location.origin);
+            url.searchParams.set('recommended_colors', recommended_colors.join(','));
+            window.location.href = url.toString();
+        };
     </script>
 </body>
 </html>
