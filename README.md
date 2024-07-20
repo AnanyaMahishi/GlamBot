@@ -87,7 +87,7 @@ python app.py
 - Implements facial segmentation and color extraction using the FACER library.
 - Saves segmented facial parts and extracts hex codes for skin, eye, and hair colors.
 
-# tech stack
+# Tech stack
 
 Majorly coded in **Python**
 
